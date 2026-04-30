@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday 🌿</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        :root {
+            --green-deep: #1C3829;
+            --green-mid: #2D5E45;
+            --green-soft: #4A8C68;
+            --green-light: #7EC89A;
+            --green-pale: #B8E3C8;
+            --green-mist: #E8F5EE;
+            --sage: #A8C5A0;
+            --cream: #FAFCF8;
+            --gold: #C4A84F;
+            --gold-light: #E8D48A;
+            --white: #FFFFFF;
+            --text-dark: #1A2E24;
+            --text-mid: #3D5E4A;
+            --text-light: #6B9478;
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* ─── FLOATING LEAVES ─── */
+        .leaves-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden
+        }
+
+        .leaf {
+            position: absolute;
+            opacity: 0;
+            animation: leafFall linear infinite
+        }
+
+        .leaf svg {
+            display: block
+        }
+
+        @keyframes leafFall {
+            0% {
+                transform: translateY(-40px) rotate(0deg) translateX(0);
+                opacity: 0
+            }
+
+            5% {
+                opacity: .5
+            }
+
+            85% {
+                opacity: .3
+            }
+
+            100% {
+                transform: translateY(105vh) rotate(400deg) translateX(60px);
+                opacity: 0
+            }
+        }
+
+        /* ─── NAV DOTS ─── */
+        .nav-dots {
+            position: fixed;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(74, 140, 104, .3);
+            border: 1px solid rgba(74, 140, 104, .5);
+            cursor: pointer;
+            transition: all .3s
+        }
+
+        .nav-dot.active {
+            background: var(--green-soft);
+            transform: scale(1.4)
+        }
+
+        /* ─── SECTIONS GENERAL ─── */
+        section {
+            position: relative;
+            min-height: 100vh;
+            z-index: 1
+        }
+
+        /* ══════════════════════════════
+   COVER
+══════════════════════════════ */
+        #cover {
+            background: linear-gradient(175deg, var(--green-deep) 0%, var(--green-mid) 45%, #3A7A58 75%, var(--green-deep) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 28px;
+            overflow: hidden;
+        }
+
+        .cover-circle {
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(126, 200, 154, .12) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cover-circle-2 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            border: 1px solid rgba(126, 200, 154, .1);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cover-circle-3 {
+            position: absolute;
+            width: 650px;
+            height: 650px;
+            border-radius: 50%;
+            border: 1px solid rgba(126, 200, 154, .06);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cover-ornament {
+            font-size: 11px;
+            letter-spacing: 5px;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            opacity: .9;
+            animation: fadeUp .8s ease both;
+        }
+
+        .cover-bismillah {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(15px, 4vw, 19px);
+            color: rgba(184, 227, 200, .7);
+            margin-bottom: 20px;
+            line-height: 1.8;
+            animation: fadeUp .8s .2s ease both;
+        }
+
+        .cover-main {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: clamp(44px, 12vw, 68px);
+            line-height: 1.1;
+            color: var(--white);
+            margin-bottom: 8px;
+            animation: fadeUp .8s .3s ease both;
+        }
+
+        .cover-main span {
+            display: block;
+            background: linear-gradient(135deg, var(--green-pale) 0%, var(--white) 40%, var(--gold-light) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cover-name-wrapper {
+            margin: 20px 0 28px;
+            animation: fadeUp .8s .4s ease both;
+        }
+
+        .cover-name-label {
+            font-size: 12px;
+            letter-spacing: 4px;
+            color: var(--sage);
+            text-transform: uppercase;
+            margin-bottom: 8px
+        }
+
+        .cover-name-box {
+            display: inline-block;
+            border: 1px solid rgba(196, 168, 79, .4);
+            border-radius: 40px;
+            padding: 10px 32px;
+            background: rgba(255, 255, 255, .05);
+            backdrop-filter: blur(10px);
+        }
+
+        .cover-name {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(22px, 6vw, 30px);
+            color: var(--gold-light);
+        }
+
+        .cover-name-placeholder {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(18px, 5vw, 26px);
+            color: rgba(196, 168, 79, .6);
+        }
+
+        .cover-date {
+            font-size: 13px;
+            letter-spacing: 3px;
+            color: var(--sage);
+            margin-bottom: 40px;
+            animation: fadeUp .8s .5s ease both;
+        }
+
+        .cover-flowers {
+            font-size: 22px;
+            letter-spacing: 6px;
+            margin-bottom: 0;
+            animation: fadeUp .8s .6s ease both;
+        }
+
+        .cover-scroll {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            animation: bounce 2s ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        .cover-scroll span {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: rgba(168, 197, 160, .6);
+            text-transform: uppercase
+        }
+
+        .cover-scroll-arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 1.5px solid rgba(168, 197, 160, .5);
+            border-bottom: 1.5px solid rgba(168, 197, 160, .5);
+            transform: rotate(45deg)
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0)
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(6px)
+            }
+        }
+
+        /* ══════════════════════════════
+   UCAPAN BARAKALLAH
+══════════════════════════════ */
+        #ucapan {
+            background: var(--cream);
+            padding: 70px 0 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green-mist);
+            border: 1px solid var(--green-pale);
+            border-radius: 20px;
+            padding: 6px 18px;
+            margin-bottom: 20px;
+        }
+
+        .section-badge span {
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--green-soft);
+            text-transform: uppercase
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(26px, 7vw, 36px);
+            color: var(--green-deep);
+            text-align: center;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .section-title em {
+            font-style: italic;
+            color: var(--green-soft)
+        }
+
+        .section-sub {
+            font-size: 14px;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: .5px
+        }
+
+        .ucapan-arabic {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(22px, 6vw, 30px);
+            direction: rtl;
+            text-align: center;
+            color: var(--green-deep);
+            line-height: 1.8;
+            margin: 0 24px 16px;
+            padding: 28px 28px;
+            background: linear-gradient(135deg, var(--green-mist), rgba(184, 227, 200, .3));
+            border-radius: 20px;
+            border: 1px solid var(--green-pale);
+            position: relative;
+            width: calc(100% - 48px);
+            max-width: 480px;
+        }
+
+        .ucapan-arabic::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            border: 1px dashed rgba(74, 140, 104, .2);
+            border-radius: 14px;
+            pointer-events: none;
+        }
+
+        .ucapan-translate {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(14px, 3.8vw, 17px);
+            color: var(--text-light);
+            text-align: center;
+            margin: 0 28px 32px;
+            line-height: 1.8;
+            max-width: 460px;
+        }
+
+        .ucapan-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            padding: 0 20px;
+            max-width: 520px;
+        }
+
+        .ucapan-card {
+            background: var(--white);
+            border: 1px solid var(--green-pale);
+            border-radius: 16px;
+            padding: 22px 22px 22px 64px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ucapan-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--green-light), var(--green-soft));
+        }
+
+        .ucapan-card-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--green-mist);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .ucapan-card-text {
+            font-family: 'Lora', serif;
+            font-size: clamp(14px, 3.8vw, 16px);
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+
+        .ucapan-card-text strong {
+            color: var(--green-soft);
+            font-weight: 500
+        }
+
+        /* ══════════════════════════════
+   DOA
+══════════════════════════════ */
+        #doa {
+            background: linear-gradient(170deg, var(--green-deep) 0%, #2A5540 100%);
+            padding: 70px 0 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #doa .section-badge {
+            background: rgba(126, 200, 154, .1);
+            border-color: rgba(126, 200, 154, .25)
+        }
+
+        #doa .section-badge span {
+            color: var(--green-pale)
+        }
+
+        #doa .section-title {
+            color: var(--white)
+        }
+
+        #doa .section-title em {
+            color: var(--gold-light)
+        }
+
+        #doa .section-sub {
+            color: var(--sage)
+        }
+
+        .doa-intro {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: clamp(15px, 4vw, 18px);
+            color: rgba(184, 227, 200, .85);
+            text-align: center;
+            line-height: 1.9;
+            margin: 0 28px 36px;
+            max-width: 460px;
+        }
+
+        .doa-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+            padding: 0 20px;
+            max-width: 520px;
+        }
+
+        .doa-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(126, 200, 154, .15);
+            border-radius: 14px;
+            padding: 18px 18px;
+            backdrop-filter: blur(8px);
+        }
+
+        .doa-num {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 22px;
+            color: var(--gold-light);
+            min-width: 24px;
+            line-height: 1.2;
+        }
+
+        .doa-text {
+            font-family: 'Lora', serif;
+            font-size: clamp(14px, 3.8vw, 16px);
+            color: rgba(232, 245, 238, .9);
+            line-height: 1.8;
+        }
+
+        .doa-text strong {
+            color: var(--green-pale)
+        }
+
+        .doa-amin {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(20px, 5.5vw, 28px);
+            color: var(--gold-light);
+            text-align: center;
+            margin-top: 36px;
+            letter-spacing: 2px;
+            opacity: .9;
+        }
+
+        /* ══════════════════════════════
+   GALLERY
+══════════════════════════════ */
+        #gallery {
+            background: var(--cream);
+            padding: 70px 0 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gallery-info {
+            font-size: 13px;
+            color: var(--text-light);
+            text-align: center;
+            margin: 0 24px 28px;
+            line-height: 1.7;
+            max-width: 400px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0 20px;
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--green-mist);
+            border: 1px solid var(--green-pale);
+            cursor: pointer;
+            transition: transform .3s;
+        }
+
+        .gallery-item:nth-child(1) {
+            grid-row: span 2
+        }
+
+        .gallery-item:hover {
+            transform: scale(.98)
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            padding-top: 100%;
+            position: relative;
+            background: linear-gradient(135deg, var(--green-mist), rgba(184, 227, 200, .4));
+        }
+
+        .gallery-item:nth-child(1) .gallery-placeholder {
+            padding-top: 200%
+        }
+
+        .gallery-placeholder-inner {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .gallery-placeholder-icon {
+            font-size: 28px;
+            opacity: .5
+        }
+
+        .gallery-placeholder-text {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            text-align: center;
+            padding: 0 8px
+        }
+
+        .gallery-upload-btn {
+            display: block;
+            width: calc(100% - 40px);
+            max-width: 480px;
+            margin: 20px 20px 0;
+            padding: 14px;
+            background: var(--green-mist);
+            border: 1.5px dashed var(--green-light);
+            border-radius: 14px;
+            text-align: center;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--green-soft);
+            transition: all .3s;
+        }
+
+        .gallery-upload-btn:hover {
+            background: rgba(126, 200, 154, .15)
+        }
+
+        .gallery-upload-btn input {
+            display: none
+        }
+
+        .gallery-caption {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 12px;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 16px;
+            padding: 0 20px;
+            max-width: 480px;
+            line-height: 1.7;
+        }
+
+        /* ══════════════════════════════
+   KESAN KAWAN
+══════════════════════════════ */
+        #kesan {
+            background: linear-gradient(170deg, #F0F8F2 0%, var(--cream) 100%);
+            padding: 70px 0 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .kesan-form-wrap {
+            width: 100%;
+            padding: 0 20px;
+            max-width: 520px;
+            background: var(--white);
+            border: 1px solid var(--green-pale);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 28px;
+        }
+
+        .kesan-form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            color: var(--green-deep);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--green-pale);
+            border-radius: 12px;
+            background: var(--green-mist);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--text-dark);
+            outline: none;
+            transition: border .3s;
+            resize: none;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: var(--green-soft)
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--text-light)
+        }
+
+        .form-textarea {
+            min-height: 90px;
+            line-height: 1.6
+        }
+
+        .emoji-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+            flex-wrap: wrap
+        }
+
+        .emoji-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--green-mist);
+            border: 1px solid var(--green-pale);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .emoji-btn.selected {
+            background: var(--green-pale);
+            border-color: var(--green-soft);
+            transform: scale(1.15)
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, var(--green-mid), var(--green-soft));
+            border: none;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--white);
+            cursor: pointer;
+            transition: opacity .3s;
+            letter-spacing: .5px;
+        }
+
+        .submit-btn:hover {
+            opacity: .9
+        }
+
+        .submit-btn:active {
+            transform: scale(.98)
+        }
+
+        .kesan-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+            padding: 0 20px;
+            max-width: 520px;
+        }
+
+        .kesan-empty {
+            text-align: center;
+            padding: 30px;
+            font-family: 'Lora', serif;
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 15px;
+            background: var(--white);
+            border: 1px dashed var(--green-pale);
+            border-radius: 16px;
+        }
+
+        .kesan-card {
+            background: var(--white);
+            border: 1px solid var(--green-pale);
+            border-radius: 16px;
+            padding: 18px 18px 18px 20px;
+            position: relative;
+            overflow: hidden;
+            animation: slideIn .4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .kesan-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px
+        }
+
+        .kesan-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green-light), var(--green-soft));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--white);
+            flex-shrink: 0;
+        }
+
+        .kesan-meta {
+            flex: 1
+        }
+
+        .kesan-name {
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--green-deep)
+        }
+
+        .kesan-relation {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 1px
+        }
+
+        .kesan-emoji {
+            font-size: 20px
+        }
+
+        .kesan-msg {
+            font-family: 'Lora', serif;
+            font-size: clamp(13px, 3.6vw, 15px);
+            color: var(--text-mid);
+            line-height: 1.8;
+        }
+
+        .kesan-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--green-light), var(--green-soft));
+        }
+
+        /* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+        footer {
+            background: var(--green-deep);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-flowers {
+            font-size: 20px;
+            letter-spacing: 5px;
+            margin-bottom: 14px;
+            opacity: .7
+        }
+
+        .footer-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(16px, 4.5vw, 20px);
+            color: var(--green-pale);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .footer-sub {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: var(--sage);
+            opacity: .6;
+            text-transform: uppercase
+        }
+
+        /* ══════════════════════════════
+   ANIMATIONS
+══════════════════════════════ */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .7s ease, transform .7s ease
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        /* scroll hint line at section tops */
+        .section-line {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--green-light), var(--green-soft));
+            border-radius: 2px;
+            margin: 0 auto 24px
+        }
+
+        #doa .section-line {
+            background: linear-gradient(90deg, rgba(126, 200, 154, .4), var(--gold-light))
+        }
+
+        /* ─── MUSIC PLAYER ─── */
+        .music-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: rgba(28, 56, 41, .92);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(126, 200, 154, .15);
+            padding: 10px 18px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(100%);
+            transition: transform .4s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .music-bar.visible {
+            transform: translateY(0)
+        }
+
+        .music-play-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green-light), var(--green-soft));
+            border: none;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform .2s;
+        }
+
+        .music-play-btn:active {
+            transform: scale(.92)
+        }
+
+        .music-play-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: white
+        }
+
+        .music-info {
+            flex: 1;
+            min-width: 0
+        }
+
+        .music-title {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--green-pale);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .music-artist {
+            font-size: 11px;
+            color: var(--sage);
+            margin-top: 2px
+        }
+
+        .music-progress-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px
+        }
+
+        .music-progress {
+            width: 100%;
+            height: 3px;
+            background: rgba(126, 200, 154, .2);
+            border-radius: 2px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .music-progress::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--green-light);
+            cursor: pointer
+        }
+
+        .music-progress::-webkit-slider-runnable-track {
+            background: transparent;
+            border-radius: 2px
+        }
+
+        .music-time {
+            font-size: 10px;
+            color: var(--sage);
+            display: flex;
+            justify-content: space-between
+        }
+
+        .music-vol {
+            width: 52px;
+            height: 3px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(126, 200, 154, .2);
+            border-radius: 2px;
+            cursor: pointer;
+            flex-shrink: 0
+        }
+
+        .music-vol::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--sage)
+        }
+
+        .music-switch-badge {
+            font-size: 10px;
+            letter-spacing: .5px;
+            color: var(--gold-light);
+            background: rgba(196, 168, 79, .12);
+            border: 1px solid rgba(196, 168, 79, .25);
+            border-radius: 10px;
+            padding: 2px 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating leaves -->
+    <div class="leaves-layer" id="leaves"></div>
+
+    <!-- Music Player Bar -->
+    <div class="music-bar" id="musicBar">
+        <button class="music-play-btn" id="playBtn" onclick="togglePlay()">
+            <svg id="playIcon" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+            </svg>
+        </button>
+        <div class="music-info">
+            <div class="music-title" id="musicTitle">Selamat Ulang Tahun — Jamrud</div>
+            <div class="music-artist" id="musicArtist">🎵 Sedang memutar...</div>
+        </div>
+        <div class="music-progress-wrap">
+            <input type="range" class="music-progress" id="progressBar" value="0" min="0" max="100" step="0.1">
+            <div class="music-time"><span id="timeNow">0:00</span><span id="timeDur">0:00</span></div>
+        </div>
+        <input type="range" class="music-vol" id="volBar" value="70" min="0" max="100">
+        <div class="music-switch-badge" id="switchBadge">🎂 Lagu 1</div>
+    </div>
+
+    <!-- Hidden audio elements -->
+    <audio id="audio1" preload="auto">
+        <source src="Jamrud - Selamat ulang tahun.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="audio2" preload="auto">
+        <source src="sergequadrado-muslim-sorrow-109184.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Nav dots -->
+    <nav class="nav-dots" id="navDots">
+        <div class="nav-dot active" data-target="cover" title="Cover"></div>
+        <div class="nav-dot" data-target="ucapan" title="Ucapan"></div>
+        <div class="nav-dot" data-target="doa" title="Doa"></div>
+        <div class="nav-dot" data-target="gallery" title="Gallery"></div>
+        <div class="nav-dot" data-target="kesan" title="Kesan Kawan"></div>
+    </nav>
+
+    <!-- ══ COVER ══ -->
+    <section id="cover">
+        <div class="cover-circle"></div>
+        <div class="cover-circle-2"></div>
+        <div class="cover-circle-3"></div>
+        <div class="cover-ornament">✿ &nbsp; Milestone Istimewa &nbsp; ✿</div>
+        <div class="cover-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+        <h1 class="cover-main">
+            Happy<br>
+            <span>Birthday</span>
+        </h1>
+        <div class="cover-name-wrapper">
+            <div class="cover-name-label">buat orang tersayangku</div>
+            <div class="cover-name-box">
+                <span class="cover-name-placeholder" id="coverName">cantiknya akuh 🤗😘</span>
+            </div>
+        </div>
+        <div class="cover-date" id="coverDate">— Hari Istimewamu —</div>
+        <div class="cover-flowers">🌿 🌸 🌿 🌸 🌿</div>
+        <div class="cover-scroll" onclick="document.getElementById('ucapan').scrollIntoView({behavior:'smooth'})">
+            <span>scroll</span>
+            <div class="cover-scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- ══ UCAPAN ══ -->
+    <section id="ucapan">
+        <div class="section-badge reveal"><span>🌿 Ucapan</span></div>
+        <h2 class="section-title reveal">Barakallah <em>fi Umrik</em></h2>
+        <div class="section-line reveal"></div>
+        <p class="section-sub reveal">Semoga Allah memberkahi umurmu</p>
+
+        <div class="ucapan-arabic reveal">
+            بَارَكَ اللهُ لَكَ فِي عُمْرِكَ وَرِزْقِكَ وَعَمَلِكَ
+        </div>
+        <p class="ucapan-translate reveal">
+            "Semoga Allah memberkahimu dalam umurmu, rezekinya, dan amalmu"
+        </p>
+
+        <div class="ucapan-cards">
+            <div class="ucapan-card reveal">
+                <div class="ucapan-card-icon">🎂</div>
+                <p class="ucapan-card-text">Hari ini adalah hari yang Allah pilihkan untukmu hadir di dunia ini.
+                    Sungguh, <strong>kehadiranmu adalah berkah</strong> yang tak ternilai bagi orang-orang yang
+                    mencintaimu.</p>
+            </div>
+            <div class="ucapan-card reveal">
+                <div class="ucapan-card-icon">🌿</div>
+                <p class="ucapan-card-text">Semoga setiap tahun yang berlalu membawamu lebih dekat kepada-Nya, lebih
+                    bijaksana dalam menjalani hidup, dan <strong>lebih bahagia dari tahun sebelumnya</strong>.</p>
+            </div>
+            <div class="ucapan-card reveal">
+                <div class="ucapan-card-icon">✨</div>
+                <p class="ucapan-card-text">Di hari istimewamu ini, semoga hatimu dipenuhi syukur dan senyum yang tak
+                    pernah padam. <strong>Kamu layak mendapatkan semua kebaikan dunia dan akhirat.</strong></p>
+            </div>
+            <div class="ucapan-card reveal">
+                <div class="ucapan-card-icon">💚</div>
+                <p class="ucapan-card-text">Semoga Allah senantiasa menjaga langkahmu, melancarkan setiap urusanmu, dan
+                    menghadirkan orang-orang terbaik dalam kehidupanmu. <strong>Selamat ulang tahun, semoga berkah
+                        selalu. 🌙</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ DOA ══ -->
+    <section id="doa">
+        <div class="section-badge reveal"><span>🤲 Doa</span></div>
+        <h2 class="section-title reveal">Untaian <em>Doa</em></h2>
+        <div class="section-line reveal"></div>
+        <p class="section-sub reveal">Dengan sepenuh hati, kupanjatkan untukmu</p>
+
+        <p class="doa-intro reveal">
+            Ya Allah, di hari ulang tahun hamba-Mu yang istimewa ini, perkenankanlah doa-doa ini naik kepada-Mu...
+        </p>
+
+        <div class="doa-grid">
+            <div class="doa-item reveal">
+                <div class="doa-num">①</div>
+                <p class="doa-text">Ya Allah, <strong>panjangkan umurnya</strong> dalam keberkahan, ketaatan, dan
+                    kemanfaatan bagi sesama. Jadikan setiap detak jantungnya sebagai dzikir kepada-Mu.</p>
+            </div>
+            <div class="doa-item reveal">
+                <div class="doa-num">②</div>
+                <p class="doa-text">Ya Allah, <strong>lapangkan rezekinya</strong> dari jalan yang halal dan berkah.
+                    Cukupkan kebutuhannya dan jauhkan ia dari kesempitan.</p>
+            </div>
+            <div class="doa-item reveal">
+                <div class="doa-num">③</div>
+                <p class="doa-text">Ya Allah, <strong>jaga kesehatannya</strong> — tubuh, hati, dan akalnya. Kuatkan ia
+                    di saat lemah, hiburkan ia di saat sedih.</p>
+            </div>
+            <div class="doa-item reveal">
+                <div class="doa-num">④</div>
+                <p class="doa-text">Ya Allah, <strong>tetapkan ia di atas hidayah-Mu</strong>. Jadikan ia insan yang
+                    semakin cinta kepada-Mu dan Rasul-Mu seiring bertambahnya usia.</p>
+            </div>
+            <div class="doa-item reveal">
+                <div class="doa-num">⑤</div>
+                <p class="doa-text">Ya Allah, <strong>wujudkan mimpi-mimpi indahnya</strong>. Mudahkan setiap langkah
+                    menuju cita-citanya dan jadikan ia kebanggaan keluarga serta umat.</p>
+            </div>
+            <div class="doa-item reveal">
+                <div class="doa-num">⑥</div>
+                <p class="doa-text">Ya Allah, <strong>pertemukan ia dengan orang-orang yang mencintainya</strong>
+                    karena-Mu. Dan jadikan akhir dari segala akhir untuknya adalah husnul khatimah. Aamiin.</p>
+            </div>
+        </div>
+
+        <div class="doa-amin reveal">— Aamiin Ya Rabbal 'Aalamiin —</div>
+    </section>
+
+    <!-- ══ GALLERY ══ -->
+    <section id="gallery">
+        <div class="section-badge reveal"><span>📷 Galeri</span></div>
+        <h2 class="section-title reveal">Gallery <em>Kenangan</em></h2>
+        <div class="section-line reveal"></div>
+        <p class="gallery-info reveal">Abadikan momen-momen terindah. Klik tombol di bawah untuk menambahkan foto
+            kenangan.</p>
+
+        <div class="gallery-grid" id="galleryGrid">
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    <div class="gallery-placeholder-inner">
+                        <div class="gallery-placeholder-icon">🌸</div>
+                        <div class="gallery-placeholder-text">Foto Utama</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    <div class="gallery-placeholder-inner">
+                        <div class="gallery-placeholder-icon">🌿</div>
+                        <div class="gallery-placeholder-text">Momen</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    <div class="gallery-placeholder-inner">
+                        <div class="gallery-placeholder-icon">✨</div>
+                        <div class="gallery-placeholder-text">Kenangan</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <label class="gallery-upload-btn reveal">
+            <input type="file" accept="image/*" multiple id="galleryUpload">
+            ＋ &nbsp; Tambahkan Foto
+        </label>
+        <p class="gallery-caption reveal">
+            "Setiap gambar menyimpan seribu kenangan yang tak terlupakan 🌿"
+        </p>
+    </section>
+
+    <!-- ══ KESAN KAWAN ══ -->
+    <section id="kesan">
+        <div class="section-badge reveal"><span>💬 Pesan</span></div>
+        <h2 class="section-title reveal">Kesan <em>Kawan-Kawan</em></h2>
+        <div class="section-line reveal"></div>
+        <p class="section-sub reveal">Tulis pesanmu untuk si empunya hari</p>
+
+        <div class="kesan-form-wrap reveal" style="width:calc(100% - 0px);margin:0 20px 28px;max-width:480px">
+            <div class="kesan-form-title">✍️ Tinggalkan Pesan Untuknya</div>
+            <div class="form-row">
+                <input type="text" class="form-input" id="kesanName" placeholder="Nama kamu...">
+                <input type="text" class="form-input" id="kesanRelation"
+                    placeholder="Hubungan (contoh: Sahabat, Adik, dll)">
+            </div>
+            <textarea class="form-textarea" id="kesanMsg"
+                placeholder="Tulis kesan, pesan, atau doa untuknya..."></textarea>
+            <div style="margin-bottom:14px">
+                <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;letter-spacing:.5px">Pilih emoji:
+                </div>
+                <div class="emoji-row" id="emojiRow">
+                    <button class="emoji-btn selected" data-emoji="💚">💚</button>
+                    <button class="emoji-btn" data-emoji="🌸">🌸</button>
+                    <button class="emoji-btn" data-emoji="🌿">🌿</button>
+                    <button class="emoji-btn" data-emoji="✨">✨</button>
+                    <button class="emoji-btn" data-emoji="🎂">🎂</button>
+                    <button class="emoji-btn" data-emoji="🤲">🤲</button>
+                    <button class="emoji-btn" data-emoji="😊">😊</button>
+                    <button class="emoji-btn" data-emoji="🥰">🥰</button>
+                </div>
+            </div>
+            <button class="submit-btn" id="submitKesan">Kirim Pesan 💌</button>
+        </div>
+
+        <div class="kesan-list" id="kesanList">
+            <div class="kesan-empty" id="kesanEmpty">🌿 Belum ada pesan. Jadilah yang pertama menulis!</div>
+        </div>
+    </section>
+
+    <!-- ══ FOOTER ══ -->
+    <footer>
+        <div class="footer-flowers">🌿 🌸 🌿</div>
+        <p class="footer-text">"Semoga hari-harimu selalu dihiasi<br>berkah, cinta, dan bahagia."</p>
+        <div class="footer-sub">Barakallah fi umrik 🌿</div>
+    </footer>
+
+    <script>
+        // ─── LEAVES ───
+        (function () {
+            var c = document.getElementById('leaves');
+            var svgs = [
+                '<svg width="12" height="16" viewBox="0 0 12 16"><path d="M6 1 C2 5 1 10 6 15 C11 10 10 5 6 1Z" fill="COLOR" opacity="0.6"/></svg>',
+                '<svg width="10" height="14" viewBox="0 0 10 14"><ellipse cx="5" cy="7" rx="4" ry="6" fill="COLOR" opacity="0.5" transform="rotate(-20 5 7)"/></svg>'
+            ];
+            var colors = ['#7EC89A', '#4A8C68', '#B8E3C8', '#A8C5A0', '#2D5E45'];
+            for (var i = 0; i < 18; i++) {
+                var d = document.createElement('div');
+                d.className = 'leaf';
+                var col = colors[Math.floor(Math.random() * colors.length)];
+                var svgStr = svgs[i % 2].replace('COLOR', col);
+                d.innerHTML = svgStr;
+                d.style.cssText = 'left:' + (Math.random() * 100) + '%;animation-duration:' + (7 + Math.random() * 10) + 's;animation-delay:' + (Math.random() * 10) + 's;';
+                c.appendChild(d);
+            }
+        })();
+
+        // ─── MUSIC PLAYER ───
+        var audio1 = document.getElementById('audio1');
+        var audio2 = document.getElementById('audio2');
+        var currentAudio = audio1;
+        var currentTrack = 1;
+        var isPlaying = false;
+        var userStarted = false;
+
+        var tracks = {
+            1: { audio: audio1, title: 'Selamat Ulang Tahun — Jamrud', badge: '🎂 Lagu 1', sections: ['cover', 'ucapan'] },
+            2: { audio: audio2, title: 'Muslim Sorrow — Sergequadrado', badge: '🤲 Lagu 2', sections: ['doa', 'gallery', 'kesan'] }
+        };
+
+        function fmtTime(s) {
+            if (isNaN(s)) return '0:00';
+            var m = Math.floor(s / 60), sec = Math.floor(s % 60);
+            return m + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+
+        function togglePlay() {
+            userStarted = true;
+            document.getElementById('musicBar').classList.add('visible');
+            if (isPlaying) { pauseMusic() } else { playMusic() }
+        }
+
+        function playMusic() {
+            currentAudio.volume = document.getElementById('volBar').value / 100;
+            currentAudio.play().catch(function () { });
+            isPlaying = true;
+            document.getElementById('playIcon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+            document.getElementById('musicArtist').textContent = '🎵 Sedang memutar...';
+        }
+
+        function pauseMusic() {
+            currentAudio.pause();
+            isPlaying = false;
+            document.getElementById('playIcon').innerHTML = '<path d="M8 5v14l11-7z"/>';
+            document.getElementById('musicArtist').textContent = '⏸ Dijeda';
+        }
+
+        function switchTrack(num) {
+            if (currentTrack === num) return;
+            var wasPlaying = isPlaying;
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentTrack = num;
+            currentAudio = tracks[num].audio;
+            document.getElementById('musicTitle').textContent = tracks[num].title;
+            document.getElementById('switchBadge').textContent = tracks[num].badge;
+            document.getElementById('progressBar').value = 0;
+            document.getElementById('timeNow').textContent = '0:00';
+            document.getElementById('timeDur').textContent = '0:00';
+            if (wasPlaying) playMusic();
+        }
+
+        // progress update
+        [audio1, audio2].forEach(function (a) {
+            a.addEventListener('timeupdate', function () {
+                if (a !== currentAudio) return;
+                var pct = a.duration ? a.currentTime / a.duration * 100 : 0;
+                document.getElementById('progressBar').value = pct;
+                document.getElementById('timeNow').textContent = fmtTime(a.currentTime);
+                document.getElementById('timeDur').textContent = fmtTime(a.duration);
+            });
+            a.addEventListener('ended', function () {
+                if (a !== currentAudio) return;
+                isPlaying = false;
+                document.getElementById('playIcon').innerHTML = '<path d="M8 5v14l11-7z"/>';
+                document.getElementById('musicArtist').textContent = '✅ Selesai';
+            });
+        });
+
+        document.getElementById('progressBar').addEventListener('input', function () {
+            if (currentAudio.duration) {
+                currentAudio.currentTime = this.value / 100 * currentAudio.duration;
+            }
+        });
+        document.getElementById('volBar').addEventListener('input', function () {
+            currentAudio.volume = this.value / 100;
+        });
+
+        // ─── SECTION-BASED MUSIC SWITCH ───
+        var sectionTrackMap = { cover: 1, ucapan: 1, doa: 2, gallery: 2, kesan: 2 };
+        var secObsMusic = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (e.isIntersecting && userStarted) {
+                    var tid = sectionTrackMap[e.target.id];
+                    if (tid && tid !== currentTrack) switchTrack(tid);
+                }
+            });
+        }, { threshold: 0.5 });
+        ['cover', 'ucapan', 'doa', 'gallery', 'kesan'].forEach(function (s) {
+            var el = document.getElementById(s);
+            if (el) secObsMusic.observe(el);
+        });
+
+        // show bar on first scroll
+        window.addEventListener('scroll', function () {
+            document.getElementById('musicBar').classList.add('visible');
+        }, { once: true });
+
+        // ─── REVEAL ON SCROLL ───
+        var reveals = document.querySelectorAll('.reveal');
+        var obs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visible') } });
+        }, { threshold: 0.12 });
+        reveals.forEach(function (r) { obs.observe(r) });
+
+        // ─── NAV DOTS ───
+        var sections = ['cover', 'ucapan', 'doa', 'gallery', 'kesan'];
+        var dots = document.querySelectorAll('.nav-dot');
+        dots.forEach(function (d) {
+            d.addEventListener('click', function () {
+                var t = this.dataset.target;
+                document.getElementById(t).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        var sectObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (e.isIntersecting) {
+                    var id = e.target.id;
+                    dots.forEach(function (d) { d.classList.toggle('active', d.dataset.target === id) });
+                }
+            });
+        }, { threshold: 0.4 });
+        sections.forEach(function (s) { sectObs.observe(document.getElementById(s)) });
+
+        // ─── SET DATE ───
+        var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        var now = new Date();
+        document.getElementById('coverDate').textContent = '— ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear() + ' —';
+
+        // ─── GALLERY UPLOAD ───
+        document.getElementById('galleryUpload').addEventListener('change', function (e) {
+            var files = Array.from(e.target.files);
+            var grid = document.getElementById('galleryGrid');
+            var placeholders = grid.querySelectorAll('.gallery-item');
+            var idx = 0;
+            files.forEach(function (file) {
+                var reader = new FileReader();
+                reader.onload = function (ev) {
+                    var item;
+                    if (idx < placeholders.length) {
+                        item = placeholders[idx];
+                        item.innerHTML = '';
+                    } else {
+                        item = document.createElement('div');
+                        item.className = 'gallery-item';
+                        grid.appendChild(item);
+                    }
+                    var img = document.createElement('img');
+                    img.src = ev.target.result;
+                    img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;min-height:140px;border-radius:15px';
+                    item.appendChild(img);
+                    idx++;
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // ─── EMOJI PICKER ───
+        var selectedEmoji = '💚';
+        document.getElementById('emojiRow').addEventListener('click', function (e) {
+            var btn = e.target.closest('.emoji-btn');
+            if (!btn) return;
+            document.querySelectorAll('.emoji-btn').forEach(function (b) { b.classList.remove('selected') });
+            btn.classList.add('selected');
+            selectedEmoji = btn.dataset.emoji;
+        });
+
+        // ─── SUBMIT KESAN ───
+        var kesanData = [];
+        document.getElementById('submitKesan').addEventListener('click', function () {
+            var name = document.getElementById('kesanName').value.trim();
+            var relation = document.getElementById('kesanRelation').value.trim();
+            var msg = document.getElementById('kesanMsg').value.trim();
+            if (!name || !msg) { alert('Nama dan pesan wajib diisi ya 🌿'); return; }
+            kesanData.push({ name: name, relation: relation, msg: msg, emoji: selectedEmoji });
+            renderKesan();
+            document.getElementById('kesanName').value = '';
+            document.getElementById('kesanRelation').value = '';
+            document.getElementById('kesanMsg').value = '';
+        });
+
+        function renderKesan() {
+            var list = document.getElementById('kesanList');
+            var empty = document.getElementById('kesanEmpty');
+            if (kesanData.length === 0) { empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            list.innerHTML = '';
+            kesanData.slice().reverse().forEach(function (k) {
+                var initials = k.name.split(' ').map(function (w) { return w[0] }).join('').toUpperCase().slice(0, 2);
+                var card = document.createElement('div');
+                card.className = 'kesan-card';
+                card.innerHTML = '<div class="kesan-card-header"><div class="kesan-avatar">' + initials + '</div><div class="kesan-meta"><div class="kesan-name">' + k.name + '</div>' + (k.relation ? '<div class="kesan-relation">' + k.relation + '</div>' : '') + '</div><div class="kesan-emoji">' + k.emoji + '</div></div><p class="kesan-msg">' + k.msg.replace(/\n/g, '<br>') + '</p>';
+                list.appendChild(card);
+            });
+        }
+    </script>
+</body>
+
+</html>
