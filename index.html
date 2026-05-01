@@ -83,33 +83,6 @@
             transform: translateY(0);
         }
 
-        .gallery-placeholder {
-            width: 100%;
-            padding-top: 100%;
-            position: relative;
-            background: linear-gradient(135deg, #E8F5EE, rgba(184, 227, 200, 0.4));
-        }
-
-        .gallery-item:first-child .gallery-placeholder {
-            padding-top: 200%;
-        }
-
-        .gallery-placeholder-inner {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .emoji-btn.selected {
-            background: #B8E3C8 !important;
-            border-color: #4A8C68 !important;
-            transform: scale(1.15);
-        }
-
         .nav-dot.active {
             background: #4A8C68 !important;
             transform: scale(1.4) !important;
@@ -146,6 +119,97 @@
         .animate-bounce-slow {
             animation: bounce 2s ease-in-out infinite;
         }
+
+        /* Gallery Styles */
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            padding-top: 100%;
+            position: relative;
+            background: linear-gradient(135deg, #E8F5EE, rgba(184, 227, 200, 0.4));
+        }
+
+        .gallery-placeholder-inner {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Floating Music Button - hide by default, show after cover */
+        .floating-music {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+
+        .floating-music.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .floating-music:hover {
+            transform: scale(1.1);
+        }
+
+        .music-wave {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2D5E45, #4A8C68);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .music-wave.playing {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(74, 140, 104, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(74, 140, 104, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(74, 140, 104, 0);
+            }
+        }
     </style>
 </head>
 
@@ -153,6 +217,7 @@
 
     <div class="leaves-layer" id="leaves"></div>
 
+    <!-- Navigation Dots -->
     <nav class="nav-dots fixed right-[14px] top-1/2 -translate-y-1/2 z-[100] flex flex-col gap-2.5">
         <div class="nav-dot w-2 h-2 rounded-full bg-[rgba(74,140,104,0.3)] border border-[rgba(74,140,104,0.5)] cursor-pointer transition-all duration-300"
             data-target="cover"></div>
@@ -162,28 +227,21 @@
             data-target="doa"></div>
         <div class="nav-dot w-2 h-2 rounded-full bg-[rgba(74,140,104,0.3)] border border-[rgba(74,140,104,0.5)] cursor-pointer transition-all duration-300"
             data-target="gallery"></div>
-        <div class="nav-dot w-2 h-2 rounded-full bg-[rgba(74,140,104,0.3)] border border-[rgba(74,140,104,0.5)] cursor-pointer transition-all duration-300"
-            data-target="kesan"></div>
     </nav>
 
-    <div id="musicBar"
-        class="fixed bottom-0 left-0 right-0 z-[200] bg-[rgba(28,56,41,0.94)] backdrop-blur-md border-t border-[rgba(126,200,154,0.2)] py-2.5 px-4 flex items-center gap-3 translate-y-full transition-transform duration-400">
-        <button id="playBtn"
-            class="w-9 h-9 rounded-full bg-gradient-to-br from-green-light to-green-soft flex items-center justify-center shadow-md active:scale-95 transition-transform">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+    <!-- Floating Music Button - hanya muncul setelah lewat cover -->
+    <div id="floatingMusic" class="floating-music">
+        <div id="musicWave" class="music-wave">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
                 <path d="M8 5v14l11-7z" />
             </svg>
-        </button>
-        <div class="flex-1">
-            <div id="musicTitle" class="text-xs font-medium text-green-pale">🎵 Musik Latar</div>
-            <div id="musicArtist" class="text-[11px] text-sage">Klik play untuk memutar</div>
         </div>
-        <input type="range" id="progressBar" value="0" min="0" max="100" step="0.1"
-            class="flex-1 h-1 bg-[rgba(126,200,154,0.2)] rounded-full accent-green-soft">
-        <div id="musicBadge"
-            class="bg-[rgba(196,168,79,0.15)] px-2 py-0.5 rounded-xl text-[10px] text-gold-light whitespace-nowrap">🎵
-            Musik</div>
     </div>
+
+    <!-- Hidden Audio -->
+    <audio id="bgMusic" preload="auto" loop>
+        <source src="assets/music/Westlife -  Beautiful in white (Lyrics) (256).mp3" type="audio/mpeg">
+    </audio>
 
     <!-- COVER SECTION -->
     <section id="cover"
@@ -209,7 +267,7 @@
             <div class="text-[12px] tracking-[4px] text-sage uppercase mb-2">buat orang tersayangku</div>
             <div
                 class="inline-block border border-[rgba(196,168,79,0.4)] rounded-[40px] px-8 py-2.5 bg-white/5 backdrop-blur-md">
-                <span id="coverName" class="font-playfair italic text-[clamp(18px,5vw,26px)] text-gold-light">cantiknya
+                <span class="font-playfair italic text-[clamp(18px,5vw,26px)] text-gold-light">cantiknya
                     akuh 🤗😘</span>
             </div>
         </div>
@@ -288,7 +346,8 @@
             <span class="text-[11px] tracking-[3px] text-green-pale uppercase">🤲 Doa</span>
         </div>
         <h2 class="reveal font-playfair text-[clamp(26px,7vw,36px)] text-white text-center mb-1.5 leading-[1.3]">Untaian
-            <em class="italic text-gold-light">Doa</em></h2>
+            <em class="italic text-gold-light">Doa</em>
+        </h2>
         <div class="reveal w-10 h-0.5 bg-gradient-to-r from-green-light to-green-soft rounded-full mx-auto mb-6"></div>
         <p class="reveal text-sm text-sage text-center mb-10 tracking-wide">Dengan sepenuh hati, kupanjatkan untuk ci
             cantik nya akuh😘</p>
@@ -300,37 +359,43 @@
                 class="reveal flex items-start gap-4 bg-white/5 border border-[rgba(126,200,154,0.15)] rounded-xl p-[18px] backdrop-blur-sm">
                 <div class="font-playfair italic text-[22px] text-gold-light min-w-6">①</div>
                 <p class="font-lora text-[clamp(14px,3.8vw,16px)] text-[rgba(232,245,238,0.9)] leading-[1.8]">Ya Allah,
-                    <strong>panjangkan umurnya</strong> dalam keberkahan, ketaatan, dan kemanfaatan.</p>
+                    <strong>panjangkan umurnya</strong> dalam keberkahan, ketaatan, dan kemanfaatan.
+                </p>
             </div>
             <div
                 class="reveal flex items-start gap-4 bg-white/5 border border-[rgba(126,200,154,0.15)] rounded-xl p-[18px] backdrop-blur-sm">
                 <div class="font-playfair italic text-[22px] text-gold-light min-w-6">②</div>
                 <p class="font-lora text-[clamp(14px,3.8vw,16px)] text-[rgba(232,245,238,0.9)] leading-[1.8]">Ya Allah,
-                    <strong>lapangkan rezekinya</strong> dari jalan halal dan berkah.</p>
+                    <strong>lapangkan rezekinya</strong> dari jalan halal dan berkah.
+                </p>
             </div>
             <div
                 class="reveal flex items-start gap-4 bg-white/5 border border-[rgba(126,200,154,0.15)] rounded-xl p-[18px] backdrop-blur-sm">
                 <div class="font-playfair italic text-[22px] text-gold-light min-w-6">③</div>
                 <p class="font-lora text-[clamp(14px,3.8vw,16px)] text-[rgba(232,245,238,0.9)] leading-[1.8]">Ya Allah,
-                    <strong>jaga kesehatannya</strong> — tubuh, hati, dan akalnya.</p>
+                    <strong>jaga kesehatannya</strong> — tubuh, hati, dan akalnya.
+                </p>
             </div>
             <div
                 class="reveal flex items-start gap-4 bg-white/5 border border-[rgba(126,200,154,0.15)] rounded-xl p-[18px] backdrop-blur-sm">
                 <div class="font-playfair italic text-[22px] text-gold-light min-w-6">④</div>
                 <p class="font-lora text-[clamp(14px,3.8vw,16px)] text-[rgba(232,245,238,0.9)] leading-[1.8]">Ya Allah,
-                    <strong>tetapkan ia di atas hidayah-Mu</strong> dan jadikan ia insan yang bertaqwa.</p>
+                    <strong>tetapkan ia di atas hidayah-Mu</strong> dan jadikan ia insan yang bertaqwa.
+                </p>
             </div>
             <div
                 class="reveal flex items-start gap-4 bg-white/5 border border-[rgba(126,200,154,0.15)] rounded-xl p-[18px] backdrop-blur-sm">
                 <div class="font-playfair italic text-[22px] text-gold-light min-w-6">⑤</div>
                 <p class="font-lora text-[clamp(14px,3.8vw,16px)] text-[rgba(232,245,238,0.9)] leading-[1.8]">Ya Allah,
-                    <strong>wujudkan mimpi-mimpi indahnya</strong> dan mudahkan setiap langkahnya.</p>
+                    <strong>wujudkan mimpi-mimpi indahnya</strong> dan mudahkan setiap langkahnya.
+                </p>
             </div>
             <div
                 class="reveal flex items-start gap-4 bg-white/5 border border-[rgba(126,200,154,0.15)] rounded-xl p-[18px] backdrop-blur-sm">
                 <div class="font-playfair italic text-[22px] text-gold-light min-w-6">⑥</div>
                 <p class="font-lora text-[clamp(14px,3.8vw,16px)] text-[rgba(232,245,238,0.9)] leading-[1.8]">Ya Allah,
-                    <strong>pertemukan ia dengan cinta-Mu</strong> dan anugerahi husnul khatimah. Aamiin.</p>
+                    <strong>pertemukan ia dengan cinta-Mu</strong> dan anugerahi husnul khatimah. Aamiin.
+                </p>
             </div>
         </div>
         <div
@@ -338,96 +403,28 @@
             — Aamiin Ya Rabbal 'Aalamiin —</div>
     </section>
 
-    <!-- GALLERY SECTION
+    <!-- GALLERY SECTION -->
     <section id="gallery" class="relative min-h-screen z-[1] bg-cream py-[70px] px-5 flex flex-col items-center">
         <div
             class="reveal inline-flex items-center gap-2 bg-green-mist border border-green-pale rounded-[20px] px-[18px] py-1.5 mb-5">
-            <span class="text-[11px] tracking-[3px] text-green-soft uppercase">📷 Galeri</span></div>
-        <h2 class="reveal font-playfair text-[clamp(26px,7vw,36px)] text-green-deep text-center mb-1.5 leading-[1.3]">
-            Gallery <em class="italic text-green-soft">Kenangan</em></h2>
-        <div class="reveal w-10 h-0.5 bg-gradient-to-r from-green-light to-green-soft rounded-full mx-auto mb-6"></div>
-        <p class="reveal text-sm text-[#6B9478] text-center mx-6 mb-7 max-w-[400px]">Abadikan momen-momen terindah. Klik
-            tombol di bawah untuk menambahkan foto kenangan.</p>
-        <div id="galleryGrid" class="grid grid-cols-2 gap-3 w-full max-w-[520px]">
-            <div class="gallery-item rounded-2xl overflow-hidden bg-green-mist border border-green-pale cursor-pointer">
-                <div class="gallery-placeholder">
-                    <div class="gallery-placeholder-inner">
-                        <div class="text-xl">🌸</div>
-                        <div class="text-xs text-gray-500">Foto Utama</div>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item rounded-2xl overflow-hidden bg-green-mist border border-green-pale cursor-pointer">
-                <div class="gallery-placeholder !pt-[100%]">
-                    <div class="gallery-placeholder-inner">
-                        <div class="text-xl">🌿</div>
-                        <div class="text-xs text-gray-500">Momen</div>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item rounded-2xl overflow-hidden bg-green-mist border border-green-pale cursor-pointer">
-                <div class="gallery-placeholder !pt-[100%]">
-                    <div class="gallery-placeholder-inner">
-                        <div class="text-xl">✨</div>
-                        <div class="text-xs text-gray-500">Kenangan</div>
-                    </div>
-                </div>
-            </div>
+            <span class="text-[11px] tracking-[3px] text-green-soft uppercase">📷 Galeri</span>
         </div>
-        <label
-            class="reveal block w-[calc(100%-40px)] max-w-[480px] mt-5 mx-5 py-3.5 bg-green-mist border-2 border-dashed border-green-light rounded-xl text-center cursor-pointer text-sm text-green-soft font-medium transition-all hover:bg-green-pale/30">＋
-            &nbsp; Tambahkan Foto<input type="file" accept="image/*" multiple id="galleryUpload" class="hidden"></label>
-        <p class="reveal font-lora italic text-xs text-[#6B9478] text-center mt-4 max-w-[480px]">"Setiap gambar
-            menyimpan seribu kenangan yang tak terlupakan 🌿"</p>
-    </section>
-
- 
-    <section id="kesan"
-        class="relative min-h-screen z-[1] bg-gradient-to-b from-[#F0F8F2] via-cream to-cream py-[70px] px-5 flex flex-col items-center">
-        <div
-            class="reveal inline-flex items-center gap-2 bg-green-mist border border-green-pale rounded-[20px] px-[18px] py-1.5 mb-5">
-            <span class="text-[11px] tracking-[3px] text-green-soft uppercase">💬 Pesan</span></div>
         <h2 class="reveal font-playfair text-[clamp(26px,7vw,36px)] text-green-deep text-center mb-1.5 leading-[1.3]">
-            SampaiKan <em class="italic text-green-soft">Kesan</em></h2>
+            Gallery <em class="italic text-green-soft">Kenangan</em>
+        </h2>
         <div class="reveal w-10 h-0.5 bg-gradient-to-r from-green-light to-green-soft rounded-full mx-auto mb-6"></div>
-        <p class="reveal text-sm text-[#6B9478] text-center mb-10 tracking-wide">Tulis pesanmu untuk si empunya hari</p>
+        <p class="reveal text-sm text-[#6B9478] text-center mx-6 mb-7 max-w-[400px]">Momen-momen indah bersama cantik 🌸
+        </p>
 
-        <div class="reveal w-full max-w-[520px] bg-white border border-green-pale rounded-2xl p-6 mb-7">
-            <div class="font-playfair text-base text-green-deep text-center mb-4">✍️ Tinggalkan Pesan Untuknya</div>
-            <div class="flex flex-col gap-2.5 mb-2.5"><input type="text" id="kesanName"
-                    class="w-full p-3 border border-green-pale rounded-xl bg-green-mist text-sm outline-none focus:border-green-soft"
-                    placeholder="Masukan Nama"></div>
-            <div class="flex flex-col gap-2.5 mb-2.5"><textarea id="kesanMsg"
-                    class="w-full p-3 border border-green-pale rounded-xl bg-green-mist text-sm outline-none focus:border-green-soft resize-none min-h-[90px]"
-                    placeholder="Tulis kesan, atau pesan"></textarea></div>
-            <div class="mb-3.5">
-                <div class="text-xs text-gray-500 mb-2">Pilih emoji:</div>
-                <div id="emojiRow" class="flex gap-2 flex-wrap"><button
-                        class="emoji-btn w-9 h-9 rounded-full bg-green-mist border border-green-pale text-base cursor-pointer flex items-center justify-center transition-all"
-                        data-emoji="💚">💚</button><button
-                        class="emoji-btn w-9 h-9 rounded-full bg-green-mist border border-green-pale text-base cursor-pointer flex items-center justify-center transition-all"
-                        data-emoji="🌸">🌸</button><button
-                        class="emoji-btn w-9 h-9 rounded-full bg-green-mist border border-green-pale text-base cursor-pointer flex items-center justify-center transition-all"
-                        data-emoji="🌿">🌿</button><button
-                        class="emoji-btn w-9 h-9 rounded-full bg-green-mist border border-green-pale text-base cursor-pointer flex items-center justify-center transition-all"
-                        data-emoji="✨">✨</button><button
-                        class="emoji-btn w-9 h-9 rounded-full bg-green-mist border border-green-pale text-base cursor-pointer flex items-center justify-center transition-all"
-                        data-emoji="🎂">🎂</button><button
-                        class="emoji-btn w-9 h-9 rounded-full bg-green-mist border border-green-pale text-base cursor-pointer flex items-center justify-center transition-all"
-                        data-emoji="🤲">🤲</button><button
-                        class="emoji-btn w-9 h-9 rounded-full bg-green-mist border border-green-pale text-base cursor-pointer flex items-center justify-center transition-all"
-                        data-emoji="😊">😊</button><button
-                        class="emoji-btn w-9 h-9 rounded-full bg-green-mist border border-green-pale text-base cursor-pointer flex items-center justify-center transition-all"
-                        data-emoji="🥰">🥰</button></div>
-            </div>
-            <button id="submitKesan"
-                class="w-full py-3 bg-gradient-to-r from-green-mid to-green-soft border-none rounded-xl font-medium text-white cursor-pointer tracking-wide active:scale-[0.98] transition-transform">Kirim
-                Pesan 💌</button>
+        <div id="galleryGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-[800px]">
+            <!-- Gallery akan diisi oleh JavaScript -->
         </div>
 
-        <div id="kesanList" class="flex flex-col gap-3.5 w-full max-w-[520px]"></div>
+        <div class="reveal mt-8 text-center">
+            <p class="text-xs text-gray-500 mt-3">* Klik gambar untuk melihat lebih besar</p>
+        </div>
     </section>
--->
+
     <footer class="bg-green-deep py-10 px-5 text-center">
         <div class="text-xl tracking-[5px] mb-3.5 opacity-70">🌿 🌸 🌿</div>
         <p class="font-playfair italic text-[clamp(16px,4.5vw,20px)] text-green-pale mb-4">"Semoga hari-harimu selalu
@@ -464,199 +461,232 @@
         reveals.forEach(r => revealObserver.observe(r));
 
         // ========== NAVIGATION DOTS ==========
-        const sections = ['cover', 'ucapan', 'doa', 'gallery', 'kesan'];
+        const sections = ['cover', 'ucapan', 'doa', 'gallery'];
         const dots = document.querySelectorAll('.nav-dot');
+
         dots.forEach(dot => {
+            if (dot.dataset.target === 'cover') {
+                dot.classList.add('active');
+            }
             dot.addEventListener('click', () => {
                 const target = document.getElementById(dot.dataset.target);
                 if (target) target.scrollIntoView({ behavior: 'smooth' });
             });
         });
+
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     dots.forEach(dot => {
                         const isActive = dot.dataset.target === entry.target.id;
-                        dot.classList.toggle('active', isActive);
+                        if (isActive) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
                     });
                 }
             });
         }, { threshold: 0.4 });
-        sections.forEach(s => { const el = document.getElementById(s); if (el) sectionObserver.observe(el); });
 
-        // ========== MUSIC PLAYER ==========
-        let isPlaying = false;
-        let audioContext = null;
-        let gainNode = null;
-        let currentOscillator = null;
-        let musicInterval = null;
+        sections.forEach(s => {
+            const el = document.getElementById(s);
+            if (el) sectionObserver.observe(el);
+        });
 
-        const playBtn = document.getElementById('playBtn');
-        const musicBar = document.getElementById('musicBar');
-        const progressBar = document.getElementById('progressBar');
-        const musicArtist = document.getElementById('musicArtist');
+        // ========== MUSIC PLAYER - Floating Button Only After Cover ==========
+        const audio = document.getElementById('bgMusic');
+        const floatingMusic = document.getElementById('floatingMusic');
+        const musicWave = document.getElementById('musicWave');
+        const coverSection = document.getElementById('cover');
 
-        function playSimpleTone() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                gainNode = audioContext.createGain();
-                gainNode.connect(audioContext.destination);
-                gainNode.gain.value = 0.15;
-            }
-            if (audioContext.state === 'suspended') audioContext.resume();
-            if (currentOscillator) { try { currentOscillator.stop(); currentOscillator.disconnect(); } catch (e) { } }
-            currentOscillator = audioContext.createOscillator();
-            currentOscillator.type = 'sine';
-            currentOscillator.frequency.value = 440;
-            currentOscillator.connect(gainNode);
-            currentOscillator.start();
-            setTimeout(() => {
-                if (currentOscillator) { try { currentOscillator.stop(); currentOscillator.disconnect(); currentOscillator = null; } catch (e) { } }
-            }, 2000);
-        }
+        let isMusicPlaying = false;
+        let musicStarted = false;
 
-        if (playBtn) {
-            playBtn.addEventListener('click', () => {
-                musicBar.classList.add('visible');
-                if (isPlaying) {
-                    isPlaying = false;
-                    if (currentOscillator) { try { currentOscillator.stop(); currentOscillator.disconnect(); currentOscillator = null; } catch (e) { } }
-                    if (musicInterval) clearInterval(musicInterval);
-                    playBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>';
-                    if (musicArtist) musicArtist.textContent = '⏸ Dijeda';
-                } else {
-                    isPlaying = true;
-                    playSimpleTone();
-                    playBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-                    if (musicArtist) musicArtist.textContent = '🎵 Sedang memutar nada sederhana';
-                    if (musicInterval) clearInterval(musicInterval);
-                    musicInterval = setInterval(() => { if (isPlaying) playSimpleTone(); }, 3000);
+        // Deteksi ketika user sudah melewati cover section
+        const coverObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting && !musicStarted) {
+                    // User sudah scroll melewati cover, tampilkan floating button
+                    floatingMusic.classList.add('visible');
+                    musicStarted = true;
+
+                    // Mulai musik otomatis
+                    audio.play().then(() => {
+                        isMusicPlaying = true;
+                        musicWave.classList.add('playing');
+                        musicWave.querySelector('svg').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="white"/>';
+                    }).catch(err => {
+                        console.log('Auto-play need user interaction first:', err);
+                    });
+
+                    // Berhenti observe setelah aktif
+                    coverObserver.unobserve(coverSection);
                 }
             });
+        }, { threshold: 0.3 });
+
+        if (coverSection) {
+            coverObserver.observe(coverSection);
         }
 
-        window.addEventListener('scroll', () => { if (musicBar) musicBar.classList.add('visible'); }, { once: true });
-
-        let progress = 0;
-        setInterval(() => {
-            if (isPlaying && progressBar) {
-                progress = (progress + 1) % 100;
-                progressBar.value = progress;
+        // Floating button click handler
+        floatingMusic.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isMusicPlaying) {
+                audio.pause();
+                isMusicPlaying = false;
+                musicWave.classList.remove('playing');
+                musicWave.querySelector('svg').innerHTML = '<path d="M8 5v14l11-7z" fill="white"/>';
+            } else {
+                audio.play().then(() => {
+                    isMusicPlaying = true;
+                    musicWave.classList.add('playing');
+                    musicWave.querySelector('svg').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="white"/>';
+                }).catch(err => {
+                    console.log('Play error:', err);
+                });
             }
-        }, 500);
+        });
 
-        // ========== GALLERY UPLOAD ==========
-        const uploadInput = document.getElementById('galleryUpload');
+        // Error handling audio
+        audio.addEventListener('error', (e) => {
+            console.error('Audio error:', e);
+        });
+
+        // Preload audio
+        audio.load();
+
+        // ========== GALLERY SECTION ==========
         const galleryGrid = document.getElementById('galleryGrid');
-        if (uploadInput && galleryGrid) {
-            uploadInput.addEventListener('change', function (e) {
-                const files = Array.from(e.target.files);
-                const items = galleryGrid.querySelectorAll('.gallery-item');
-                let idx = 0;
-                files.forEach(file => {
-                    const reader = new FileReader();
-                    reader.onload = (ev) => {
-                        let item;
-                        if (idx < items.length) { item = items[idx]; item.innerHTML = ''; }
-                        else { item = document.createElement('div'); item.className = 'gallery-item rounded-2xl overflow-hidden bg-green-mist border border-green-pale cursor-pointer'; galleryGrid.appendChild(item); }
-                        const img = document.createElement('img');
-                        img.src = ev.target.result;
-                        img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;border-radius:15px';
-                        item.appendChild(img);
-                        idx++;
-                    };
-                    reader.readAsDataURL(file);
-                });
-            });
-        }
+        const galleryUpload = document.getElementById('galleryUpload');
 
-        // ========== KESAN MESSAGES (LocalStorage ONLY - NO CORS ERROR!) ==========
-        let selectedEmoji = '💚';
-        const emojiBtns = document.querySelectorAll('.emoji-btn');
-        const submitBtn = document.getElementById('submitKesan');
-        const kesanName = document.getElementById('kesanName');
-        const kesanMsg = document.getElementById('kesanMsg');
-        const kesanList = document.getElementById('kesanList');
+        // Simpan gambar yang diupload user ke localStorage
+        let userImages = [];
 
-        // Emoji selection
-        if (emojiBtns.length) {
-            emojiBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    emojiBtns.forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                    selectedEmoji = btn.dataset.emoji;
-                });
-            });
-            if (document.querySelector('.emoji-btn')) document.querySelector('.emoji-btn').classList.add('selected');
-        }
-
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/[&<>]/g, function (m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
-        }
-
-        function renderMessages(messages) {
-            if (!kesanList) return;
-            kesanList.innerHTML = '';
-            if (!messages || messages.length === 0) {
-                kesanList.innerHTML = '<div class="text-center py-7 font-lora italic text-gray-500 bg-white border border-dashed border-green-pale rounded-2xl">🌿 Belum ada pesan. Jadilah yang pertama menulis!</div>';
-                return;
+        function loadUserImages() {
+            const saved = localStorage.getItem('gallery_user_images');
+            if (saved) {
+                userImages = JSON.parse(saved);
             }
-            messages.slice().reverse().forEach(msg => {
-                const initials = (msg.name || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-                const card = document.createElement('div');
-                card.className = 'bg-white border border-green-pale rounded-2xl p-[18px] relative overflow-hidden';
-                card.style.animation = 'fadeUp 0.4s ease';
-                card.innerHTML = `
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-green-light to-green-soft"></div>
-                    <div class="flex items-center gap-2.5 mb-2.5">
-                        <div class="w-[38px] h-[38px] rounded-full bg-gradient-to-br from-green-light to-green-soft flex items-center justify-center font-semibold text-white">${escapeHtml(initials)}</div>
-                        <div class="flex-1"><div class="font-medium text-green-deep">${escapeHtml(msg.name)}</div></div>
-                        <div class="text-xl">${msg.emoji || '💚'}</div>
-                    </div>
-                    <p class="font-lora text-[clamp(13px,3.6vw,15px)] text-[#3D5E4A] leading-[1.8]">${escapeHtml(msg.msg || '').replace(/\n/g, '<br>')}</p>
-                    <div class="text-[10px] text-gray-400 mt-2">${msg.timestamp ? new Date(msg.timestamp).toLocaleDateString('id-ID') : 'Baru saja'}</div>
-                `;
-                kesanList.appendChild(card);
+        }
+
+        function saveUserImages() {
+            localStorage.setItem('gallery_user_images', JSON.stringify(userImages));
+        }
+
+        function renderGallery() {
+            if (!galleryGrid) return;
+
+            galleryGrid.innerHTML = '';
+
+            // Tampilkan gambar dari assets/gallery (default)
+            for (let i = 1; i <= 6; i++) {
+                const imgPath = `assets/gallery/photo${i}.jpeg`;
+                const div = document.createElement('div');
+                div.className = 'gallery-item bg-green-mist border border-green-pale rounded-2xl overflow-hidden aspect-square';
+
+                const img = document.createElement('img');
+                img.src = imgPath;
+                img.alt = `Kenangan ${i}`;
+                img.className = 'w-full h-full object-cover';
+                img.onerror = () => {
+                    // Jika gambar tidak ditemukan, tampilkan placeholder
+                    img.parentElement.innerHTML = `
+                        <div class="gallery-placeholder !pt-[100%]">
+                            <div class="gallery-placeholder-inner">
+                                <div class="text-3xl">🌸</div>
+                                <div class="text-xs text-gray-500">Foto ${i}</div>
+                            </div>
+                        </div>
+                    `;
+                };
+
+                img.onclick = () => {
+                    openLightbox(imgPath);
+                };
+
+                div.appendChild(img);
+                galleryGrid.appendChild(div);
+            }
+
+            // Tampilkan gambar user upload
+            userImages.forEach((imgData, idx) => {
+                const div = document.createElement('div');
+                div.className = 'gallery-item bg-green-mist border border-green-pale rounded-2xl overflow-hidden aspect-square relative group';
+
+                const img = document.createElement('img');
+                img.src = imgData.src;
+                img.alt = `Upload ${idx + 1}`;
+                img.className = 'w-full h-full object-cover cursor-pointer';
+                img.onclick = () => {
+                    openLightbox(imgData.src);
+                };
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-xs';
+                deleteBtn.innerHTML = '✕';
+                deleteBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    userImages.splice(idx, 1);
+                    saveUserImages();
+                    renderGallery();
+                };
+
+                div.appendChild(img);
+                div.appendChild(deleteBtn);
+                galleryGrid.appendChild(div);
             });
         }
 
-        function loadMessages() {
-            const saved = localStorage.getItem('birthday_messages');
-            const messages = saved ? JSON.parse(saved) : [];
-            renderMessages(messages);
+        // Lightbox untuk melihat gambar lebih besar
+        function openLightbox(imgSrc) {
+            const lightbox = document.createElement('div');
+            lightbox.className = 'fixed inset-0 bg-black bg-opacity-90 z-[1000] flex items-center justify-center cursor-pointer';
+            lightbox.onclick = () => lightbox.remove();
+
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.className = 'max-w-[90vw] max-h-[90vh] object-contain rounded-lg';
+
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'absolute top-4 right-4 text-white text-2xl w-10 h-10 rounded-full bg-black/50 flex items-center justify-center';
+            closeBtn.innerHTML = '✕';
+            closeBtn.onclick = (e) => {
+                e.stopPropagation();
+                lightbox.remove();
+            };
+
+            lightbox.appendChild(img);
+            lightbox.appendChild(closeBtn);
+            document.body.appendChild(lightbox);
         }
 
-        if (submitBtn) {
-            submitBtn.addEventListener('click', () => {
-                const name = kesanName.value.trim();
-                const msg = kesanMsg.value.trim();
-                if (!name || !msg) {
-                    alert('Nama dan pesan wajib diisi ya 🌿');
-                    return;
-                }
-                const saved = localStorage.getItem('birthday_messages');
-                const messages = saved ? JSON.parse(saved) : [];
-                messages.push({
-                    name: name,
-                    msg: msg,
-                    emoji: selectedEmoji,
-                    timestamp: new Date().toISOString()
+        // Upload gambar user
+        if (galleryUpload) {
+            galleryUpload.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+                files.forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                            userImages.push({
+                                src: ev.target.result,
+                                timestamp: Date.now()
+                            });
+                            saveUserImages();
+                            renderGallery();
+                        };
+                        reader.readAsDataURL(file);
+                    }
                 });
-                localStorage.setItem('birthday_messages', JSON.stringify(messages));
-                kesanName.value = '';
-                kesanMsg.value = '';
-                loadMessages();
-                alert('Pesanmu terkirim! Terima kasih 💚');
+                galleryUpload.value = '';
             });
         }
 
-        loadMessages();
+        // Load data dan render gallery
+        loadUserImages();
+        renderGallery();
     </script>
 </body>
 
